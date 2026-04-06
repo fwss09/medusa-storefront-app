@@ -31,7 +31,6 @@ export default function ProductScreen() {
       <Stack.Screen  options={{ 
         title: '  ',
         headerTitleAlign: 'center',
-         
       }} />
       <ActivityIndicator size={32} color={'black'} style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}} />
     </>
@@ -67,8 +66,9 @@ export default function ProductScreen() {
   return (
     <ScrollView style={styles.container}>
       <Stack.Screen options={{
-        title: product.title,
+        title: product.title.toUpperCase(),
         headerTitleAlign: 'center',
+        headerTitleStyle: { fontWeight: '400'}
       }} />
       
       <FlatList

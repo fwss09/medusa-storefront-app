@@ -35,9 +35,6 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{
-        headerTitleAlign: 'center',
-      }} />
       {!products.length ? 
         <ActivityIndicator size={32} color={'black'} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} /> :
         <FlatList data={products} keyExtractor={(item) => item.id} renderItem={({ item }) => <ListItem product={item} />} 

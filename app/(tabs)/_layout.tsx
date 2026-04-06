@@ -28,8 +28,11 @@ export default function TabLayout() {
             <Tabs.Screen 
                 name='home'
                 options={{
-                    title: 'Товари',
-                    tabBarLabel: 'Товари',
+                    title: 'ТОВАРИ',
+                    headerTitleAlign: 'center',
+                    tabBarLabel: 'ТОВАРИ',
+                    headerTitleStyle: { fontWeight: '400'},
+                    tabBarLabelStyle: { fontWeight: '400'},
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name='storefront-outline' size={size} color={color} />
                     )
@@ -38,8 +41,10 @@ export default function TabLayout() {
             <Tabs.Screen 
                 name='cart'
                 options={{
-                    title: 'Кошик',
-                    tabBarLabel: 'Кошик',
+                    title: 'КОШИК',
+                    tabBarLabel: 'КОШИК',
+                    headerTitleStyle: { fontWeight: '400'},
+                    tabBarLabelStyle: { fontWeight: '400'},
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name='bag-outline' size={size} color={color} />
                     )
