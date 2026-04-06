@@ -1,0 +1,59 @@
+import { Stack } from "expo-router";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
+import ListItem from "../components/ListItem";
+import sdk from "../lib/sdk";
+
+export default function HomeScreen() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
+  
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+  const fetchProducts = async () => {
+    try {
+      const { regions } = await sdk.store.region.list();
+      const region = regions[0];
+
+      const { products } = await sdk.store.product.list({
+        fields: `*variants.calculated_price`,
+        region_id: region.id,
+      });
+  
+      setProducts(products);
+    } catch (e) {
+      alert(`error loading products ${e}`);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchProducts();
+    setRefreshing(false);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Stack.Screen options={{
+        headerTitleAlign: 'center',
+      }} />
+      {!products.length ? 
+        <ActivityIndicator size={32} color={'black'} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} /> :
+        <FlatList data={products} keyExtractor={(item) => item.id} renderItem={({ item }) => <ListItem product={item} />} 
+          contentContainerStyle={styles.list} 
+          showsVerticalScrollIndicator={false} 
+          numColumns={2} 
+          columnWrapperStyle={{ justifyContent: 'space-between' }}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, },
+  list: { padding: 10, },
+})

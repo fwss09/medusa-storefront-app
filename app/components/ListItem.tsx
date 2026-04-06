@@ -1,5 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { formatPrice } from '../lib/sdk';
 
 
@@ -28,10 +30,13 @@ export default function ListItem({ product }: { product: any }) {
   const image = product.thumbnail ?? product.images?.[0]?.url
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity activeOpacity={0.85} onPress={() => router.push(`/product/${product.id}`)} style={styles.container}>
       {image && <Image source={{ uri: image }} style={styles.image} />}
-      <Text style={styles.title}>{product.title}</Text>
-      <View style={{ flex: 1, flexDirection: 'row', gap: 5}}>
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <Text style={styles.title}>{product.title}</Text>
+        <Ionicons name='add' size={18} color='black' onPress={() => alert('added to cart')}/>
+      </View>
+      <View style={{ flex: 1, flexDirection: 'row', gap: 5 }}>
         {isSale && originalPrice && (
           <Text style={[styles.price, { textDecorationLine: 'line-through',  }]}>
             {originalPrice}
@@ -41,13 +46,13 @@ export default function ListItem({ product }: { product: any }) {
           {price}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
-  container: { width: '48%', padding: 10, gap: 5, alignItems: 'flex-start', borderWidth: 1, borderColor: "#2b2b2b", marginVertical: 5 },
-  image: { width: '100%', aspectRatio: 1},
-  title: { fontSize: 14, fontWeight: 'bold', fontFamily: 'monospace' },
-  price: { fontSize: 11, fontFamily: 'monospace', color: "gray" },
+  container: { width: '48%', padding: 10, borderWidth: 0.9, borderColor: "#2b2b2b", marginVertical: 5 },
+  image: { width: '100%', aspectRatio: 1, marginBottom: 10},
+  title: { fontSize: 14, fontFamily: 'sans-serif', textTransform: 'uppercase' },
+  price: { fontSize: 10, fontFamily: 'monospace', color: "gray" },
 })
